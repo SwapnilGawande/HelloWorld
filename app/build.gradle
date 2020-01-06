@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply from: 'devops.gradle'
 
 android {
     compileSdkVersion 28
@@ -15,6 +16,12 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+
+    afterEvaluate {
+        // We install the hook at the first occasion
+        tasks['clean'].dependsOn installGitHooks
+        tasks['assemble'].dependsOn installGitHooks
     }
 }
 
