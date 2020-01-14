@@ -1,5 +1,10 @@
+plugins {
+    id "org.sonarqube" version "2.8"
+}
+
 apply plugin: 'com.android.application'
 apply from: 'devops.gradle'
+apply plugin: 'org.sonarqube'
 
 android {
     compileSdkVersion 28
@@ -19,9 +24,14 @@ android {
     }
 
     afterEvaluate {
-        // We install the hook at the first occasion
-        tasks['clean'].dependsOn installGitHooks
-        tasks['assemble'].dependsOn installGitHooks
+        // install the hook at the first occasion
+        //tasks['clean'].dependsOn installGitHooks
+        //tasks['assemble'].dependsOn installGitHooks
+    }
+
+    lintOptions {
+        abortOnError false
+        lintConfig file("../lint.xml")
     }
 }
 
@@ -32,4 +42,15 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+}
+
+sonarqube{
+    properties {
+        property "sonar.projectName", "HelloWorld"
+        property "sonar.projectKey", "HelloWorld"
+        property "sonar.host.url", "http://localhost:9000"
+        property "sonar.projectVersion", "1.0"
+        property "sonar.language", "java"
+        property "sonar.sources", "src/main/"
+    }
 }
