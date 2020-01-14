@@ -5,33 +5,24 @@
 # -----------------------------------------------------------------
 
 # clean project
-chmod +x gradlew
-./gradlew clean --stacktrace
+gradle clean --stacktrace
 
 # build
-if [ $buildType = 'debug' ]; then
-	./gradlew assembleDebug --stacktrace
-elif [ $buildType = 'release' ]; then
-	./gradlew assembleRelease --stacktrace
-fi
+gradle assembleDebug --stacktrace
 
 # -----------------------------------------------------------------
 # -------------------------- TESTS & LINT--------------------------
 # -----------------------------------------------------------------
 # lint
-./gradlew lint
+gradle lint
 
 # run junit test
-if [ $buildType = 'debug' ]; then
-    ./gradlew testDebugUnitTest --stacktrace
-elif [ $buildType = 'release' ]; then
-    ./gradlew testReleaseUnitTest --stacktrace
-fi
+gradle testDebugUnitTest --stacktrace
 
 # -----------------------------------------------------------------
 # -------------------------- POST BUILD ---------------------------
 # -----------------------------------------------------------------
-apkFileName="app-$buildType.apk"
+apkFileName="app-debug.apk"
 rm -r artifacts/
 rm -r report/
 mkdir artifacts
@@ -39,11 +30,11 @@ mkdir report
 mkdir report/test-results
 
 # copy apk to artifacts
-if [ ! -e "app/build/outputs/apk/$buildType/$apkFileName" ]; then
-    echo "ERROR: File not exists: (app/build/outputs/apk/$buildType/$apkFileName)"
+if [ ! -e "app/build/outputs/apk/debug/$apkFileName" ]; then
+    echo "ERROR: File not exists: (app/build/outputs/apk/debug/$apkFileName)"
     exit 1
 fi
-cp app/build/outputs/apk/$buildType/$apkFileName artifacts/
+cp app/build/outputs/apk/debug/$apkFileName artifacts/
 
 # copy lint results
 if [ ! -e "app/build/reports/lint-results.xml" ]; then
@@ -58,9 +49,9 @@ for module in "${modules[@]}"
 do
 
     testsDir=""
-    if [ $buildType = 'debug' ]; then
+    if [ debug = 'debug' ]; then
         testsDir="$module/build/test-results/testDebugUnitTest"
-    elif [ $buildType = 'release' ]; then
+    elif [ debug = 'release' ]; then
         testsDir="$module/build/test-results/testReleaseUnitTest"
     fi
 
