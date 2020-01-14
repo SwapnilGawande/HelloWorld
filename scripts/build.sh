@@ -5,27 +5,27 @@
 # -----------------------------------------------------------------
 
 # clean project
-chmod +x gradle
-gradle clean --stacktrace
+chmod +x gradlew
+./gradlew clean --stacktrace
 
 # build
 if [ $buildType = 'debug' ]; then
-	gradle assembleDebug --stacktrace
+	./gradlew assembleDebug --stacktrace
 elif [ $buildType = 'release' ]; then
-	gradle assembleRelease --stacktrace
+	./gradlew assembleRelease --stacktrace
 fi
 
 # -----------------------------------------------------------------
 # -------------------------- TESTS & LINT--------------------------
 # -----------------------------------------------------------------
 # lint
-gradle lint
+./gradlew lint
 
 # run junit test
 if [ $buildType = 'debug' ]; then
-    gradle testDebugUnitTest --stacktrace
+    ./gradlew testDebugUnitTest --stacktrace
 elif [ $buildType = 'release' ]; then
-    gradle testReleaseUnitTest --stacktrace
+    ./gradlew testReleaseUnitTest --stacktrace
 fi
 
 # -----------------------------------------------------------------
