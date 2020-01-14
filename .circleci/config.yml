@@ -15,7 +15,7 @@ jobs:
       #         command: sudo chmod +x ./gradlew
       - run:
           name: Download Dependencies
-          command:
+          command: |
           echo Running test
           ls
           ./gradlew androidDependencies
