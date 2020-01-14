@@ -15,7 +15,10 @@ jobs:
       #         command: sudo chmod +x ./gradlew
       - run:
           name: Download Dependencies
-          command: cd HelloWorld; ./gradlew androidDependencies
+          command:
+          echo Running test
+          ls
+          ./gradlew androidDependencies
       - save_cache:
           paths:
             - ~/.gradle
