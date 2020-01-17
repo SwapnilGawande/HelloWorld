@@ -52,9 +52,11 @@ jobs:
       - image: circleci/node:latest
     steps:
       - checkout
+      - *attach_workspace_artifacts
+      - *save_workspace_artifacts
       - run:
           name: Deploy to App center
-          command: ./deploy.sh
+          command: sh ./deploy.sh
 
 workflows:
   version: 2
