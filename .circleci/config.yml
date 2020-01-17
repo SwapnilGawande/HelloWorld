@@ -59,6 +59,9 @@ jobs:
       - *attach_workspace_artifacts
       - *save_workspace_artifacts
       - run:
+          name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
+          command: sudo chmod +x ./deploy.sh
+      - run:
           name: Deploy to App center
           command: sh ./deploy.sh
 
